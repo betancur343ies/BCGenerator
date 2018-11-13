@@ -6,6 +6,7 @@ import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.log.SystemOutCounter;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -17,6 +18,10 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.VerticalAlignment;
 
 import java.io.File;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Spliterator.OfInt;
+import java.util.stream.Stream;
 
 /**
  * 
@@ -41,9 +46,9 @@ public class GenerateCards {
 		file.getParentFile().mkdirs();
 		new GenerateCards().manipulateCardsPdf(DEST);
 		
-		File file1 = new File(DEST1);
-		file1.getParentFile().mkdirs();
-		new GenerateCards().manipulateConditionsPdf(DEST1);
+//		File file1 = new File(DEST1);
+//		file1.getParentFile().mkdirs();
+//		new GenerateCards().manipulateConditionsPdf(DEST1);
 	}
 
 	/**
@@ -134,6 +139,51 @@ public class GenerateCards {
 		doc.close();		
 	}
 	
+	static int[] joinArray(int[]... arrays) {
+        int length = 0;
+        for (int[] array : arrays) {
+            length += array.length;
+        }
+
+        final int[] result = new int[length];
+
+        int offset = 0;
+        for (int[] array : arrays) {
+            System.arraycopy(array, 0, result, offset, array.length);
+            offset += array.length;
+        }
+
+        return result;
+    }
+	
+	public String[] organizar(int[] lista) {
+		System.out.println(Arrays.toString(lista));
+		int[] columna1 = Arrays.copyOfRange(lista, 0, 5);
+		int[] columna2 = Arrays.copyOfRange(lista, 5, 10);
+		int[] columna3 = Arrays.copyOfRange(lista, 10, 14);
+		int[] columna4 = Arrays.copyOfRange(lista, 14, 19);
+		int[] columna5 = Arrays.copyOfRange(lista, 19, 24);
+		
+		System.out.println(Arrays.toString(columna1));
+		System.out.println(Arrays.toString(columna2));
+		System.out.println(Arrays.toString(columna3));
+		System.out.println(Arrays.toString(columna4));
+		System.out.println(Arrays.toString(columna5));
+		
+		int[] concatAll = joinArray(columna5,columna4,columna3, columna2, columna1);
+		System.out.println(Arrays.toString(concatAll));
+		String[] result = new String[24];
+		
+		for (int i = 0; i < concatAll.length; i++) {
+			String value = String.valueOf(concatAll[i]);
+			result[i] = value;
+		}
+		return result;
+	}
+			
+			
+	
+	
 	/**
 	 * 
 	 * @param centerImg
@@ -143,23 +193,46 @@ public class GenerateCards {
 	private Table getBallsTable(Image centerImg) throws Exception{
 		PdfFont font = PdfFontFactory.createFont(FontProgramFactory.createFont(FontConstants.HELVETICA_BOLD));
         Paragraph para;
-		
+        int[] balls = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23}; 
+        
+        String[] organizar = organizar(balls);
+        System.out.println("organnizar:"+Arrays.toString(organizar));
 		Table ballsTable = new Table(5);
-		
+		int r=0;
+		int c=0;
 		for (int i = 0; i < 25; i++) {
+//			System.out.println("*** " + balls[i]);
+//			if (i%5 == 0) {
+//				r=1;
+//				c++;
+//			}else {
+//				r++;
+//			}
+//			
+//			Cell cell = new Cell(r, c);
+			
 			Cell cell = new Cell();
 	        cell.setBorder(Border.NO_BORDER);
 	        cell.setHeight(50);
 	        cell.setVerticalAlignment(VerticalAlignment.MIDDLE);
 	        
-			if (i != 12) {
-				para = new Paragraph(String.valueOf(i)).setFont(font);
+			if (i < 12) {
+				para = new Paragraph(organizar[i]).setFont(font);
 				para.setFontSize(15);
 		        para.setFixedLeading(0);
 		        para.setMultipliedLeading(1);
 		        cell.add(para);
 			}
-			else {	    	
+			
+			if (i > 12) {
+				para = new Paragraph(organizar[i-1]).setFont(font);
+				para.setFontSize(15);
+		        para.setFixedLeading(0);
+		        para.setMultipliedLeading(1);
+		        cell.add(para);
+			}
+			
+			if (i == 12) {	    	
 				cell.add(centerImg);
 			}			
 			
