@@ -1,11 +1,22 @@
 package bingo_cards_generator;
 
+import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.io.font.FontProgramFactory;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
+
 import java.io.File;
 
 /**
@@ -47,17 +58,58 @@ public class GenerateCards {
 		Image wplayImage = new Image(ImageDataFactory.create(WPLAYIMAGE));	    
 		wplayImage.setAutoScale(true);
     
-		int totalCards = 2;
+		Table ballsTable = getBallsTable(wplayImage);
+		
+		int totalCards = 1;
         for (int i = 0; i < totalCards; i++) {
         	
-    		cardImage.setFixedPosition(i + 1, 0, 450);
+    		cardImage.setFixedPosition(i + 1, 0, 450);    		
+    		ballsTable.setFixedPosition(185, 555, 210);
     	    doc.add(cardImage);
+    	    doc.add(ballsTable);
     	    
-    	    cardImage.setFixedPosition(i + 1, 0, 50);
+    	    cardImage.setFixedPosition(i + 1, 0, 50);    		
+    		ballsTable.setFixedPosition(185, 155, 210);
     	    doc.add(cardImage);
+    	    doc.add(ballsTable);
 	    }
 		
 		doc.close();
+		
+	}
+	
+	/**
+	 * 
+	 * @param centerImg
+	 * @param cardImg
+	 * @return
+	 */
+	private Table getBallsTable(Image centerImg) throws Exception{
+		PdfFont font = PdfFontFactory.createFont(FontProgramFactory.createFont(FontConstants.HELVETICA_BOLD));
+        Paragraph para;
+		
+		Table ballsTable = new Table(5);
+		
+		for (int i = 0; i < 25; i++) {
+			Cell cell = new Cell();
+	        cell.setBorder(Border.NO_BORDER);
+			if (i != 12) {
+				para = new Paragraph(String.valueOf(24 - i)).setFont(font);
+		        para.setFixedLeading(0);
+		        para.setMultipliedLeading(1);
+		        cell.setHeight(50);
+		        cell.setVerticalAlignment(VerticalAlignment.MIDDLE);
+		        cell.add(para);
+			}
+			else {	    	
+				cell.add(centerImg);
+			}			
+			
+			cell.setRotationAngle(1.57);
+			ballsTable.addCell(cell);
+		}
+		
+		return ballsTable;
 	}
 
 }
