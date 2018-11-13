@@ -14,7 +14,6 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 
 import java.io.File;
@@ -26,6 +25,8 @@ import java.io.File;
  */
 public class GenerateCards {
 	public static final String DEST = "results/bingo_cards.pdf";
+	public static final String DEST1 = "results/bingo_conditions.pdf";
+
 	public static final String CARDIMAGE = "./src/main/resources/img/Bingo Poderoso (Tabla).png";
 	public static final String WPLAYIMAGE = "./src/main/resources/img/wplay_logo.png";
 	public static final String CONDITIONIMAGE = "./src/main/resources/img/Bingo Condiciones.png";
@@ -38,7 +39,11 @@ public class GenerateCards {
 	public static void main(String[] args) throws Exception {
 		File file = new File(DEST);
 		file.getParentFile().mkdirs();
-		new GenerateCards().manipulatePdf(DEST);
+		new GenerateCards().manipulateCardsPdf(DEST);
+		
+		File file1 = new File(DEST1);
+		file1.getParentFile().mkdirs();
+		new GenerateCards().manipulateConditionsPdf(DEST1);
 	}
 
 	/**
@@ -46,7 +51,7 @@ public class GenerateCards {
 	 * @param dest
 	 * @throws Exception
 	 */
-	protected void manipulatePdf(String dest) throws Exception {
+	protected void manipulateCardsPdf(String dest) throws Exception {
 		PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
 		PageSize pageSize = new PageSize(PageSize.A4);
 
@@ -57,20 +62,20 @@ public class GenerateCards {
         cardImage.setAutoScale(true);
 		Image wplayImage = new Image(ImageDataFactory.create(WPLAYIMAGE));	    
 		wplayImage.setAutoScale(true);
-		Image conditionsImage = new Image(ImageDataFactory.create(CONDITIONIMAGE));    
-		conditionsImage.setAutoScale(true);
+//		Image conditionsImage = new Image(ImageDataFactory.create(CONDITIONIMAGE));    
+//		conditionsImage.setAutoScale(true);
 		
 		Table ballsTable = getBallsTable(wplayImage);
 		Paragraph tableNum = new Paragraph("12521");
 		tableNum.setFontSize(20);
 		
-		
-		for (int p = 0; p < 5; p++) {
+		int cardsTotal = 10;
+		for (int p = 0; p < cardsTotal/2; p++) {
 	        pdfDoc.addNewPage(new PageSize(pageSize));	        
 	    
 	        for (int i = 0; i < 2; i++) {
 	        	
-	    		if (p % 2 == 0) {
+//	    		if (p % 2 == 0) {
 	    			cardImage.setFixedPosition(p + 1, 0, 450);    		
 		    		ballsTable.setFixedPosition(p + 1, 179, 542, 216);
 		    	    doc.add(cardImage);
@@ -87,14 +92,43 @@ public class GenerateCards {
 		    	    
 		    	    tableNum.setFixedPosition(p + 1, 35, 136, 200);
 		    	    doc.add(tableNum);
-	    		} else {
-	    			conditionsImage.setFixedPosition(p + 1, 0, 450);    		
-		    	    doc.add(conditionsImage);
-		    	    
-		    	    conditionsImage.setFixedPosition(p + 1, 0, 50);    		
-		    	    doc.add(conditionsImage);
-	    		}
+//	    		} else {
+//	    			conditionsImage.setFixedPosition(p + 1, 0, 450);    		
+//		    	    doc.add(conditionsImage);
+//		    	    
+//		    	    conditionsImage.setFixedPosition(p + 1, 0, 50);    		
+//		    	    doc.add(conditionsImage);
+//	    		}
 		    }
+		}
+		
+		doc.close();		
+	}
+	
+	/**
+	 * 
+	 * @param dest
+	 * @throws Exception
+	 */
+	protected void manipulateConditionsPdf(String dest) throws Exception {
+		PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
+		PageSize pageSize = new PageSize(PageSize.A4);
+
+		Document doc = new Document(pdfDoc, pageSize);
+		doc.setMargins(0, 0, 0, 0);
+
+		Image conditionsImage = new Image(ImageDataFactory.create(CONDITIONIMAGE));    
+		conditionsImage.setAutoScale(true);
+		
+		int cardsTotal = 10;
+		for (int p = 0; p < cardsTotal/2; p++) {
+	        pdfDoc.addNewPage(new PageSize(pageSize));
+	        
+			conditionsImage.setFixedPosition(p + 1, 0, 450);    		
+    	    doc.add(conditionsImage);
+    	    
+    	    conditionsImage.setFixedPosition(p + 1, 0, 50);    		
+    	    doc.add(conditionsImage);
 		}
 		
 		doc.close();		
