@@ -1,4 +1,4 @@
-package bingo_cards_generator;
+package co.com.iesonline;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;

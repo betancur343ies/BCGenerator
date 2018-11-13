@@ -1,4 +1,4 @@
-package bingo_cards_generator;
+package co.com.iesonline;
 
 import com.itextpdf.io.image.ImageDataFactory;
 
@@ -14,7 +14,6 @@ Copyright (c) 1998-2016 iText Group NV
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.border.Border;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Table;
 //import com.itextpdf.samples.GenericTest;

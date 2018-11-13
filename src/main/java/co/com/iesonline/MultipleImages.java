@@ -1,4 +1,4 @@
-package bingo_cards_generator;
+package co.com.iesonline;
 
 /*
 
@@ -9,7 +9,7 @@ Copyright (c) 1998-2016 iText Group NV
 
 /**
 * This code sample was written by Bruno Lowagie in answer to this question:
-* http://stackoverflow.com/questions/21731027/backgroundimage-in-landscape-and-cover-whole-pdf-with-itextsharp
+* http://stackoverflow.com/questions/29331838/add-multiple-images-into-a-single-pdf-file-with-itext-using-java
 */
 //package com.itextpdf.samples.sandbox.images;
 
@@ -17,9 +17,8 @@ import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Document;
-//import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Image;
 //import com.itextpdf.samples.GenericTest;
 //import com.itextpdf.test.annotations.type.SampleTest;
 //import org.junit.experimental.categories.Category;
@@ -27,28 +26,30 @@ import com.itextpdf.layout.Document;
 import java.io.File;
 
 //@Category(SampleTest.class)
-public class BackgroundImage {// extends GenericTest {
-	public static final String DEST = "results/background_image.pdf";
+public class MultipleImages {// extends GenericTest {
+	public static final String DEST = "results/multiple_images.pdf";
 	public static final String IMAGE = "./src/main/resources/img/Bingo Poderoso (Tabla).png";
 
+	
 	public static void main(String[] args) throws Exception {
 	    File file = new File(DEST);
 	    file.getParentFile().mkdirs();
-	    new BackgroundImage().manipulatePdf(DEST);
+	    new MultipleImages().manipulatePdf(DEST);
 	}
 	
 //	@Override
 	protected void manipulatePdf(String dest) throws Exception {
+	    Image image = new Image(ImageDataFactory.create(IMAGE));
 	    PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
-	    // Note that it is not necessary to create new PageSize object,
-	    // but for testing reasons (connected to parallelization) we call constructor here
-	    
-//	    PageSize pageSize = new PageSize(PageSize.A4).rotate();
-	    PageSize pageSize = new PageSize(PageSize.A4.decreaseHeight((float) 1.76));
-	    Document doc = new Document(pdfDoc, pageSize);
-	    PdfCanvas canvas = new PdfCanvas(pdfDoc.addNewPage());
-	    canvas.addImage(ImageDataFactory.create(IMAGE), pageSize, false);
-//	    doc.add(new Paragraph("Berlin!"));
+	    Document doc = new Document(pdfDoc, new PageSize(image.getImageWidth(), image.getImageHeight()));
+	    for (int i = 0; i < 2; i++) {
+	        image = new Image(ImageDataFactory.create(IMAGE));
+	        pdfDoc.addNewPage(new PageSize(image.getImageWidth(), image.getImageHeight()));
+	        // Notice that now it is not necessary to set image position,
+	        // because images are not overlapped while adding.
+	        image.setFixedPosition(i + 1, 0, 0);
+	        doc.add(image);
+	    }
 	    doc.close();
 	}
 }

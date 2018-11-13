@@ -1,4 +1,4 @@
-package bingo_cards_generator;
+package co.com.iesonline;
 
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.font.FontProgramFactory;
@@ -6,7 +6,6 @@ import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.log.SystemOutCounter;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -18,10 +17,7 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.VerticalAlignment;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Spliterator.OfInt;
-import java.util.stream.Stream;
 
 /**
  * 
@@ -46,9 +42,9 @@ public class GenerateCards {
 		file.getParentFile().mkdirs();
 		new GenerateCards().manipulateCardsPdf(DEST);
 		
-		File file1 = new File(DEST1);
-		file1.getParentFile().mkdirs();
-		new GenerateCards().manipulateConditionsPdf(DEST1);
+//		File file1 = new File(DEST1);
+//		file1.getParentFile().mkdirs();
+//		new GenerateCards().manipulateConditionsPdf(DEST1);
 	}
 
 	/**
@@ -74,7 +70,7 @@ public class GenerateCards {
 		Paragraph tableNum = new Paragraph("12521");
 		tableNum.setFontSize(20);
 		
-		int cardsTotal = 20000;
+		int cardsTotal = 10;
 		for (int p = 0; p < cardsTotal/2; p++) {
 	        pdfDoc.addNewPage(new PageSize(pageSize));	        
 	    
@@ -97,7 +93,6 @@ public class GenerateCards {
 		    	    
 		    	    tableNum.setFixedPosition(p + 1, 35, 136, 200);
 		    	    doc.add(tableNum);
-		    	    
 //	    		} else {
 //	    			conditionsImage.setFixedPosition(p + 1, 0, 450);    		
 //		    	    doc.add(conditionsImage);
@@ -126,7 +121,7 @@ public class GenerateCards {
 		Image conditionsImage = new Image(ImageDataFactory.create(CONDITIONIMAGE));    
 		conditionsImage.setAutoScale(true);
 		
-		int cardsTotal = 20000;
+		int cardsTotal = 10;
 		for (int p = 0; p < cardsTotal/2; p++) {
 	        pdfDoc.addNewPage(new PageSize(pageSize));
 	        
@@ -199,8 +194,8 @@ public class GenerateCards {
         String[] organizar = organizar(balls);
         System.out.println("organnizar:"+Arrays.toString(organizar));
 		Table ballsTable = new Table(5);
-		int r=0;
-		int c=0;
+//		int r=0;
+//		int c=0;
 		for (int i = 0; i < 25; i++) {
 //			System.out.println("*** " + balls[i]);
 //			if (i%5 == 0) {
@@ -219,7 +214,7 @@ public class GenerateCards {
 	        
 			if (i < 12) {
 				para = new Paragraph(organizar[i]).setFont(font);
-				para.setFontSize(20);
+				para.setFontSize(15);
 		        para.setFixedLeading(0);
 		        para.setMultipliedLeading(1);
 		        cell.add(para);
@@ -227,7 +222,7 @@ public class GenerateCards {
 			
 			if (i > 12) {
 				para = new Paragraph(organizar[i-1]).setFont(font);
-				para.setFontSize(20);
+				para.setFontSize(15);
 		        para.setFixedLeading(0);
 		        para.setMultipliedLeading(1);
 		        cell.add(para);

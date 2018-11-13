@@ -1,4 +1,4 @@
-package bingo_cards_generator;
+package co.com.iesonline;
 
 /*
 
