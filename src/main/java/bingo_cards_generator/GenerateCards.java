@@ -28,7 +28,7 @@ public class GenerateCards {
 	public static final String DEST = "results/bingo_cards.pdf";
 	public static final String CARDIMAGE = "./src/main/resources/img/Bingo Poderoso (Tabla).png";
 	public static final String WPLAYIMAGE = "./src/main/resources/img/wplay_logo.png";
-	public static final String CONDITIONIMAGE = "./src/main/resources/img/Bingo Poderoso (Tabla).png";
+	public static final String CONDITIONIMAGE = "./src/main/resources/img/Bingo Condiciones.png";
 
 	/**
 	 * 
@@ -57,34 +57,47 @@ public class GenerateCards {
         cardImage.setAutoScale(true);
 		Image wplayImage = new Image(ImageDataFactory.create(WPLAYIMAGE));	    
 		wplayImage.setAutoScale(true);
-    
+		Image conditionsImage = new Image(ImageDataFactory.create(CONDITIONIMAGE));    
+		conditionsImage.setAutoScale(true);
+		
 		Table ballsTable = getBallsTable(wplayImage);
 		Paragraph tableNum = new Paragraph("12521");
 		tableNum.setFontSize(20);
 		
-		int totalCards = 1;
-        for (int i = 0; i < totalCards; i++) {
-        	
-    		cardImage.setFixedPosition(i + 1, 0, 450);    		
-    		ballsTable.setFixedPosition(179, 542, 216);
-    	    doc.add(cardImage);
-    	    doc.add(ballsTable);
-    	    
-    	    cardImage.setFixedPosition(i + 1, 0, 50);    		
-    		ballsTable.setFixedPosition(179, 142, 216);
-    	    doc.add(cardImage);
-    	    doc.add(ballsTable);
-    	    
-    	    tableNum.setRotationAngle(1.57);
-    	    tableNum.setFixedPosition(35, 536, 200);
-    	    doc.add(tableNum);
-    	    
-    	    tableNum.setFixedPosition(35, 136, 200);
-    	    doc.add(tableNum);
-	    }
 		
-		doc.close();
+		for (int p = 0; p < 5; p++) {
+	        pdfDoc.addNewPage(new PageSize(pageSize));	        
+	    
+	        for (int i = 0; i < 2; i++) {
+	        	
+	    		if (p % 2 == 0) {
+	    			cardImage.setFixedPosition(p + 1, 0, 450);    		
+		    		ballsTable.setFixedPosition(p + 1, 179, 542, 216);
+		    	    doc.add(cardImage);
+		    	    doc.add(ballsTable);
+		    	    
+		    	    cardImage.setFixedPosition(p + 1, 0, 50);    		
+		    		ballsTable.setFixedPosition(p + 1, 179, 142, 216);
+		    	    doc.add(cardImage);
+		    	    doc.add(ballsTable);
+		    	    
+		    	    tableNum.setRotationAngle(1.57);
+		    	    tableNum.setFixedPosition(p + 1, 35, 536, 200);
+		    	    doc.add(tableNum);
+		    	    
+		    	    tableNum.setFixedPosition(p + 1, 35, 136, 200);
+		    	    doc.add(tableNum);
+	    		} else {
+	    			conditionsImage.setFixedPosition(p + 1, 0, 450);    		
+		    	    doc.add(conditionsImage);
+		    	    
+		    	    conditionsImage.setFixedPosition(p + 1, 0, 50);    		
+		    	    doc.add(conditionsImage);
+	    		}
+		    }
+		}
 		
+		doc.close();		
 	}
 	
 	/**
@@ -102,13 +115,14 @@ public class GenerateCards {
 		for (int i = 0; i < 25; i++) {
 			Cell cell = new Cell();
 	        cell.setBorder(Border.NO_BORDER);
+	        cell.setHeight(50);
+	        cell.setVerticalAlignment(VerticalAlignment.MIDDLE);
+	        
 			if (i != 12) {
 				para = new Paragraph(String.valueOf(i)).setFont(font);
 				para.setFontSize(15);
 		        para.setFixedLeading(0);
 		        para.setMultipliedLeading(1);
-		        cell.setHeight(50);
-		        cell.setVerticalAlignment(VerticalAlignment.MIDDLE);
 		        cell.add(para);
 			}
 			else {	    	
