@@ -59,19 +59,28 @@ public class GenerateCards {
 		wplayImage.setAutoScale(true);
     
 		Table ballsTable = getBallsTable(wplayImage);
+		Paragraph tableNum = new Paragraph("12521");
+		tableNum.setFontSize(20);
 		
 		int totalCards = 1;
         for (int i = 0; i < totalCards; i++) {
         	
     		cardImage.setFixedPosition(i + 1, 0, 450);    		
-    		ballsTable.setFixedPosition(185, 555, 210);
+    		ballsTable.setFixedPosition(179, 542, 216);
     	    doc.add(cardImage);
     	    doc.add(ballsTable);
     	    
     	    cardImage.setFixedPosition(i + 1, 0, 50);    		
-    		ballsTable.setFixedPosition(185, 155, 210);
+    		ballsTable.setFixedPosition(179, 142, 216);
     	    doc.add(cardImage);
     	    doc.add(ballsTable);
+    	    
+    	    tableNum.setRotationAngle(1.57);
+    	    tableNum.setFixedPosition(35, 536, 200);
+    	    doc.add(tableNum);
+    	    
+    	    tableNum.setFixedPosition(35, 136, 200);
+    	    doc.add(tableNum);
 	    }
 		
 		doc.close();
@@ -94,7 +103,8 @@ public class GenerateCards {
 			Cell cell = new Cell();
 	        cell.setBorder(Border.NO_BORDER);
 			if (i != 12) {
-				para = new Paragraph(String.valueOf(24 - i)).setFont(font);
+				para = new Paragraph(String.valueOf(i)).setFont(font);
+				para.setFontSize(15);
 		        para.setFixedLeading(0);
 		        para.setMultipliedLeading(1);
 		        cell.setHeight(50);
