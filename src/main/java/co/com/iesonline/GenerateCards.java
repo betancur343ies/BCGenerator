@@ -1,7 +1,6 @@
 package co.com.iesonline;
 
-import com.itextpdf.io.font.FontConstants;
-import com.itextpdf.io.font.FontProgramFactory;
+import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -14,6 +13,8 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
+import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 
 import java.io.File;
@@ -25,6 +26,9 @@ import java.util.Arrays;
  *
  */
 public class GenerateCards {
+	
+	String FONT = "./src/main/resources/fonts/a_AlternaOtl.ttf";
+	
 	public static final String DEST = "results/bingo_cards.pdf";
 	public static final String DEST1 = "results/bingo_conditions.pdf";
 
@@ -75,31 +79,29 @@ public class GenerateCards {
 	        pdfDoc.addNewPage(new PageSize(pageSize));	        
 	    
 	        for (int i = 0; i < 2; i++) {
-	        	
-//	    		if (p % 2 == 0) {
-	    			cardImage.setFixedPosition(p + 1, 0, 450);    		
-		    		ballsTable.setFixedPosition(p + 1, 179, 542, 216);
-		    	    doc.add(cardImage);
-		    	    doc.add(ballsTable);
-		    	    
-		    	    cardImage.setFixedPosition(p + 1, 0, 50);    		
-		    		ballsTable.setFixedPosition(p + 1, 179, 142, 216);
-		    	    doc.add(cardImage);
-		    	    doc.add(ballsTable);
-		    	    
-		    	    tableNum.setRotationAngle(1.57);
-		    	    tableNum.setFixedPosition(p + 1, 35, 536, 200);
-		    	    doc.add(tableNum);
-		    	    
-		    	    tableNum.setFixedPosition(p + 1, 35, 136, 200);
-		    	    doc.add(tableNum);
-//	    		} else {
-//	    			conditionsImage.setFixedPosition(p + 1, 0, 450);    		
-//		    	    doc.add(conditionsImage);
-//		    	    
-//		    	    conditionsImage.setFixedPosition(p + 1, 0, 50);    		
-//		    	    doc.add(conditionsImage);
-//	    		}
+	    		
+	    		int tableWidth = 210;
+	    		int x = 185;
+	    		int y1 = 548;
+	    		int y2 = 148;
+	    		
+    			cardImage.setFixedPosition(p + 1, 0, 450);				
+				ballsTable.setFixedPosition(p + 1, x, y1, tableWidth);
+				ballsTable.setHeight(100);
+	    	    doc.add(cardImage);
+	    	    doc.add(ballsTable);
+	    	    
+	    	    cardImage.setFixedPosition(p + 1, 0, 50);    		
+	    		ballsTable.setFixedPosition(p + 1, x, y2, tableWidth);
+	    	    doc.add(cardImage);
+	    	    doc.add(ballsTable);
+	    	    
+	    	    tableNum.setRotationAngle(1.57);
+	    	    tableNum.setFixedPosition(p + 1, 35, 536, 200);
+	    	    doc.add(tableNum);
+	    	    
+	    	    tableNum.setFixedPosition(p + 1, 35, 136, 200);
+	    	    doc.add(tableNum);
 		    }
 		}
 		
@@ -153,21 +155,23 @@ public class GenerateCards {
     }
 	
 	public String[] organizar(int[] lista) {
-		System.out.println(Arrays.toString(lista));
+		
+//		System.out.println(Arrays.toString(lista));
+		
 		int[] columna1 = Arrays.copyOfRange(lista, 0, 5);
 		int[] columna2 = Arrays.copyOfRange(lista, 5, 10);
 		int[] columna3 = Arrays.copyOfRange(lista, 10, 14);
 		int[] columna4 = Arrays.copyOfRange(lista, 14, 19);
 		int[] columna5 = Arrays.copyOfRange(lista, 19, 24);
 		
-		System.out.println(Arrays.toString(columna1));
-		System.out.println(Arrays.toString(columna2));
-		System.out.println(Arrays.toString(columna3));
-		System.out.println(Arrays.toString(columna4));
-		System.out.println(Arrays.toString(columna5));
+//		System.out.println(Arrays.toString(columna1));
+//		System.out.println(Arrays.toString(columna2));
+//		System.out.println(Arrays.toString(columna3));
+//		System.out.println(Arrays.toString(columna4));
+//		System.out.println(Arrays.toString(columna5));
 		
 		int[] concatAll = joinArray(columna5,columna4,columna3, columna2, columna1);
-		System.out.println(Arrays.toString(concatAll));
+//		System.out.println(Arrays.toString(concatAll));
 		String[] result = new String[24];
 		
 		for (int i = 0; i < concatAll.length; i++) {
@@ -176,9 +180,6 @@ public class GenerateCards {
 		}
 		return result;
 	}
-			
-			
-	
 	
 	/**
 	 * 
@@ -186,53 +187,58 @@ public class GenerateCards {
 	 * @param cardImg
 	 * @return
 	 */
-	private Table getBallsTable(Image centerImg) throws Exception{
-		PdfFont font = PdfFontFactory.createFont(FontProgramFactory.createFont(FontConstants.HELVETICA_BOLD));
-        Paragraph para;
+	private Table getBallsTable(Image centerImg) throws Exception {
+		
+//		PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);
+//		PdfFont font = PdfFontFactory.createFont(FONT);
+		PdfFont font = PdfFontFactory.createFont(FONT, PdfEncodings.WINANSI, true);		
+        
         int[] balls = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23}; 
         
         String[] organizar = organizar(balls);
-        System.out.println("organnizar:"+Arrays.toString(organizar));
+        System.out.println("organizar:" + Arrays.toString(organizar));
+        
 		Table ballsTable = new Table(5);
-//		int r=0;
-//		int c=0;
+        Paragraph para = null;
+        Cell cell = null;
+		
 		for (int i = 0; i < 25; i++) {
-//			System.out.println("*** " + balls[i]);
-//			if (i%5 == 0) {
-//				r=1;
-//				c++;
-//			}else {
-//				r++;
-//			}
-//			
-//			Cell cell = new Cell(r, c);
 			
-			Cell cell = new Cell();
+			cell = new Cell();			
 	        cell.setBorder(Border.NO_BORDER);
-	        cell.setHeight(50);
-	        cell.setVerticalAlignment(VerticalAlignment.MIDDLE);
+			cell.setHeight(30);
+			cell.setWidth(45);
+//	        cell.setVerticalAlignment(VerticalAlignment.MIDDLE);
+
+			cell.setRotationAngle(1.57);
 	        
 			if (i < 12) {
 				para = new Paragraph(organizar[i]).setFont(font);
-				para.setFontSize(15);
-		        para.setFixedLeading(0);
-		        para.setMultipliedLeading(1);
+				para.setTextAlignment(TextAlignment.CENTER);
+				para.setFontSize(20);
+//		        para.setFixedLeading(0);
+//		        para.setMultipliedLeading(1);
+		        para.setBold();
+		        
 		        cell.add(para);
 			}
 			
 			if (i > 12) {
-				para = new Paragraph(organizar[i-1]).setFont(font);
-				para.setFontSize(15);
-		        para.setFixedLeading(0);
-		        para.setMultipliedLeading(1);
-		        cell.add(para);
+				para = new Paragraph(organizar[i-1]).setFont(font);	
+				para.setTextAlignment(TextAlignment.CENTER);
+				para.setFontSize(20);
+//		        para.setFixedLeading(0);
+//		        para.setMultipliedLeading(1);
+		        para.setBold();
+				cell.add(para);	        
+		        
 			}
 			
 			if (i == 12) {	    	
-				cell.add(centerImg);
-			}			
+//				cell.add(centerImg);
+			}	
 			
-			cell.setRotationAngle(1.57);
+			
 			ballsTable.addCell(cell);
 		}
 		
