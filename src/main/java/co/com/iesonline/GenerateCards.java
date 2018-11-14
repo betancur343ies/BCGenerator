@@ -1,5 +1,8 @@
 package co.com.iesonline;
 
+import java.io.File;
+import java.util.Arrays;
+
 import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
@@ -13,12 +16,7 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
-
-import java.io.File;
-import java.util.Arrays;
 
 /**
  * 
@@ -230,8 +228,7 @@ public class GenerateCards {
 //		        para.setFixedLeading(0);
 //		        para.setMultipliedLeading(1);
 		        para.setBold();
-				cell.add(para);	        
-		        
+				cell.add(para);	   
 			}
 			
 			if (i == 12) {	    	
