@@ -23,5 +23,7 @@
 hs_err_pid*
 
 #
-target/*
 *.pdf
+/target/
+.classpath
+.settings/*
