@@ -1,7 +1,12 @@
 package co.com.iesonline;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Date;
+
+import org.apache.log4j.helpers.DateTimeDateFormat;
 
 import com.itextpdf.io.font.PdfEncodings;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -27,8 +32,8 @@ public class GenerateCards {
 	
 	public static final String FONT = "./src/main/resources/fonts/a_AlternaOtl.ttf";
 	
-	public static final String CARDS_PDF_LOCATION = "results/bingo_cards.pdf";
-	public static final String CONDITIONS_PDF_LOCATION = "results/bingo_conditions.pdf";
+	public static final String CARDS_PDF_LOCATION = "results/bingo_cards"+LocalDateTime.now()+".pdf";
+	public static final String CONDITIONS_PDF_LOCATION = "results/bingo_conditions"+LocalDateTime.now()+".pdf";
 
 	public static final String CARD_IMAGE_LOCATION = "./src/main/resources/img/Bingo Poderoso (Tabla).png";
 	public static final String ICON_LOCATION = "./src/main/resources/img/wplay_logo.png";
@@ -76,8 +81,8 @@ public class GenerateCards {
 		int totalCards = 10;
 		
 		//TODO Set width and coordinates of balls table before generate pdf's.
-		int tableWidth = 210;
-		int xCard1 = 185;
+		int tableWidth = 205;
+		int xCard1 = 188;
 		int yCard1 = 548;
 		int xCard2 = xCard1;
 		int yCard2 = 148;
