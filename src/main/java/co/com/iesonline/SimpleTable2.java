@@ -14,11 +14,15 @@ Copyright (c) 1998-2016 iText Group NV
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 //import com.itextpdf.samples.GenericTest;
 //import com.itextpdf.test.annotations.type.SampleTest;
 //import org.junit.experimental.categories.Category;
+import com.itextpdf.layout.property.TextAlignment;
 
 import java.io.File;
 
@@ -47,14 +51,31 @@ public class SimpleTable2 {//extends GenericTest {
 	    String imgLoc;
 	    Image img;
 	    
-	    for (int i = 1; i <= 5; i++) {
+	    /*for (int i = 1; i <= 5; i++) {
 	    	
 			imgLoc = "src/main/resources/img/loto_verdolaga/LOTO WPLAY 1920-"+i+".png";
 		    img = new Image(ImageDataFactory.create(imgLoc));			    
 
 		    img.setAutoScale(true);
 	    	ballsTable.addCell(img);
-	    }	    
+	    }*/	  
+	    
+	    Cell cell;
+		Paragraph para;
+		for (int i = 1; i < 10; i++) {
+
+			cell = new Cell();
+			cell.setBorder(Border.NO_BORDER);
+			
+			//setting imgs
+			imgLoc = "src/main/resources/img/loto_verdolaga/LOTO WPLAY 1920-"+i+".png";
+		    img = new Image(ImageDataFactory.create(imgLoc));
+		    img.setAutoScale(true);
+		    
+			cell.add(img);
+
+			ballsTable.addCell(cell);
+		}
 
 	    doc.add(ballsTable);
 	    doc.close();
